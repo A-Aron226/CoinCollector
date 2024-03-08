@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask environmentOnly; //checks for certain layer to collide with
     [SerializeField] Animator anim;
     [SerializeField] PlayerStats stats;
-    [SerializeField] Hazard hazard;
     
     Rigidbody rb;
     float forwardMovementInput, rightMovementInput;
@@ -52,12 +51,6 @@ public class PlayerMovement : MonoBehaviour
             anim.SetTrigger("jump");
         }
 
-        if (hazard.isHit)
-        {
-            anim.SetTrigger("hit");
-            hazard.isHit = false;
-        }
-
         if (stats.currentHealth <= 0 || transform.position.y <= -5)
         {
             SceneManager.LoadScene("LoseScene");
@@ -81,6 +74,14 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.DrawLine(transform.position, transform.position + transform.up * -groundCheck, Color.red); 
         //Draws the start position, end position then add the direction and multiply by length (in that order)
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<Hazard>() != null)
+        {
+            anim.SetTrigger("hit");
+        }
     }
 
     private void FixedUpdate()

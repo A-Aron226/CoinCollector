@@ -7,10 +7,8 @@ public class Hazard : MonoBehaviour
 {
 
     [SerializeField] PlayerStats stats;
-    public bool isHit = false;
     public void OnCollisionEnter(Collision collision)
     {
-        isHit = true;
         stats.currentHealth -= 1;
 
         /*if (stats.currentHealth < 0)
